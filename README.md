@@ -24,14 +24,13 @@ Le programme a été divisé en 2 parties :
 > 1) Importation des différentes libraries
 ```python
 import tkinter as tk
-from tkinter import ttk
-import pprint
 import random
-import time
+import re
+from tqdm import tqdm
+import matplotlib.pyplot as plt
 #import de notebook
 import nbimporter
 from snake_ia import Snake_ia
-import sys
 ```
 ___
 > 2) Class Snake_game
@@ -43,7 +42,13 @@ class Snake_game :
 ```python
     "PLAY AS PLAYER" [...] "PLAY AS SHORTEST" [...]"PLAY AS EVOLVED SHORTEST" [...] "PLAY AS HAMILTONIAN" 
 ```
-→ ajout des boutons choix de version du jeu. Ajustement de la vitesse en fonction de la version (très rapide pour les IA, lente pour la version jouable).
+
+→ ajout des boutons choix de version du jeu. 
+```python
+    game_speed = 0.1
+```
+→ ajustement de la vitesse en fonction de la version (très rapide pour les IA : 0.1, lente pour la version jouable : 120).
+
 ```python
     def create_canvas(self):
 ```
@@ -126,6 +131,7 @@ root = tk.Tk()
 snake_game = Snake_game(root)
 root.mainloop()
 ```
+→ Cette cellule lance une seule partie.
 ___
 ### L'intelligence artificielle
 
@@ -139,7 +145,6 @@ class Snake_ia :
     def shortest_path(self):
 ```
 → L'IA s'oriente directement vers la pomme. Elle ne prend pas en compte son corps (celui du snake) comme un obstacle. Elle ne donc va pas s'éviter et ne tolère pas les boucles. De même, lorsque la pomme apparaît derrière le snake sur la même ligne, l'IA se mange elle-même (exemple ci-dessous).
- 
 ![](assets/demi_tour_same_line.png?raw=true "Title")
 
 
@@ -161,14 +166,36 @@ ___
 
 # Les assets
 
-Le dossier "assets" contient les images du snake (son corps et sa tête) ainsi que celle de la pomme.
+Ce dossier contient les images statistiques et celles du Readme.md
 ___
 
 # Data
 Nous avons utilisé "matplotlib" pour comparer la moyenne cumulée des scores de chaque partie, pour 100 parties en tout.
-Voici nos résultats pour l'IA shortest_path :
-fig.savefig("test.png")
+```python
+def get_mean(score_rsult):
+    mean = []
+    count = 1
+    for j in score_rsult:
+        mean.append(round(sum(score_rsult[:count-1])/count, 1))
+        count += 1
+    return mean
 
-Et pour l'IA shortest_path_evolved :
+index_list = [i for i in range (1, len(move_count_rsults_evolved_shortest_path)+1)]
+#print("Moyenne générale :", sum(score_rsults)/len(score_rsults))
+#print("Meilleur score :", max(score_rsults))
 
+fig, ax = plt.subplots(figsize=(15,8))
+ax.plot(index_list, get_mean(score_rsults_shortest_path), color='blue')
+ax.plot(index_list, get_mean(score_rsults_evolved_shortest_path), color='orange')
+
+ax.set(xlabel='Parties', ylabel='score moyen',
+       title='moyenne cummulée du score')
+ax.grid()
+ax.legend(["shortest_path", "evolved_shortest_path"])
+plt.show()
+```
+Voici nos résultats pour l'IA shortest_path et l'IA shortest_path_evolved :
+![](assets/comparaison_ia.png =250x250)
+On remarque que l'IA shortest_path_evolved tend vers un meilleur score.
+![](assets/meilleur_score.png =250x250)
 
