@@ -9,7 +9,7 @@ Il comporte 4 versions du jeu :
   - La version habituelle : l'utilisateur manipule le snake avec les touches Z,Q,S et D.
   - L'IA Hamiltonienne : le snake suit un circuit passant par toutes les cases du jeu.
   - L'IA shortest path : le snake se dirige automatiquement vers la pomme.
-  - L'IA shortest path evolved : de même, le snake s'oriente vers la pomme mais il évite évite d'avantage d'obstacles.
+  - L'IA shortest path evolved : de même, le snake s'oriente vers la pomme mais il évite d'avantage d'obstacles.
 
 
 # Composition du code
@@ -40,6 +40,10 @@ class Snake_game :
     def __init__(self, tinker, size = 400, play_btn = True, game_speed = 150):
 ```
 → définition de la taille du serpent, sa vitesse, la taille du tableau, le score, etc.
+```python
+    "PLAY AS PLAYER" [...] "PLAY AS SHORTEST" [...]"PLAY AS EVOLVED SHORTEST" [...] "PLAY AS HAMILTONIAN" 
+```
+→ ajout des boutons choix de version du jeu. Ajustement de la vitesse en fonction de la version (très rapide pour les IA, lente pour la version jouable).
 ```python
     def create_canvas(self):
 ```
@@ -134,8 +138,8 @@ class Snake_ia :
 ```python
     def shortest_path(self):
 ```
-L'IA s'oriente directement vers la pomme. Elle ne prend pas en compte son corps (celui du snake) comme un obstacle. Elle ne donc va pas s'éviter et ne tolère pas les boucles. De même, lorsque la pomme apparaît derrière le snake sur la même ligne, l'IA se mange elle-même.
-exemple : 
+→ L'IA s'oriente directement vers la pomme. Elle ne prend pas en compte son corps (celui du snake) comme un obstacle. Elle ne donc va pas s'éviter et ne tolère pas les boucles. De même, lorsque la pomme apparaît derrière le snake sur la même ligne, l'IA se mange elle-même (exemple ci-dessous).
+ 
 ![](assets/demi_tour_same_line.png?raw=true "Title")
 
 
@@ -143,7 +147,7 @@ exemple :
 ```python
     def evolved_shortest_path(self):
 ```
-Cette IA se déplace également vers la pomme mais elle évite les obstacles. Elle prend en compte ce qui l'entours d'une case et enregistre les mouvements interdits. Elle peut éviter son corps et les demi-tours immédiats.
+→ Cette IA se déplace également vers la pomme mais elle évite les obstacles. Elle prend en compte ce qui l'entours d'une case et enregistre les mouvements interdits. Elle peut éviter son corps et les demi-tours immédiats.
 
 
 > 4) méthode IA Hamiltonienne : 
@@ -151,12 +155,20 @@ Cette IA se déplace également vers la pomme mais elle évite les obstacles. El
     def hamiltonian(self):
 ```
 → Cette IA suit un circuit hamiltonien : https://en.wikipedia.org/wiki/Hamiltonian_path.
-Le snake passe par toutes les cases du jeu une seule fois, puis il recommence. Il ne se croise donc jamais. Cette méthode gagne toujours mais elle est extrêmement lente. On pourrait presque ne pas la considérer comme une véritable IA car il n'y a pas de prise de décision.
+Le snake passe par toutes les cases du jeu une seule fois, puis il recommence. Il ne se croise donc jamais. Cette méthode gagne toujours mais elle est extrêmement lente. On pourrait presque ne pas la considérer comme une véritable IA car il n'y a aucune prise de décision, pas de comportement évolutif.
 ![](assets/IA_Hamiltonian.gif)
 ___
 
 # Les assets
 
 Le dossier "assets" contient les images du snake (son corps et sa tête) ainsi que celle de la pomme.
+___
+
+# Data
+Nous avons utilisé "matplotlib" pour comparer la moyenne cumulée des scores de chaque partie, pour 100 parties en tout.
+Voici nos résultats pour l'IA shortest_path :
+fig.savefig("test.png")
+
+Et pour l'IA shortest_path_evolved :
 
 
