@@ -145,7 +145,9 @@ class Snake_ia :
     def shortest_path(self):
 ```
 → L'IA s'oriente directement vers la pomme. Elle ne prend pas en compte son corps (celui du snake) comme un obstacle. Elle ne donc va pas s'éviter et ne tolère pas les boucles. De même, lorsque la pomme apparaît derrière le snake sur la même ligne, l'IA se mange elle-même (exemple ci-dessous).
-![](assets/demi_tour_same_line.png?raw=true "Title")
+<br/>
+<img src="assets/demi_tour_same_line.png" alt="Developer Roadmap" width="300">
+
 
 
 > 3) méthode IA evolved_shortest_path : 
@@ -195,7 +197,12 @@ ax.legend(["shortest_path", "evolved_shortest_path"])
 plt.show()
 ```
 Voici nos résultats pour l'IA shortest_path et l'IA shortest_path_evolved :
-![](assets/comparaison_ia.png =250x250)
+<img src="assets/comparaison_ia.png" alt="Developer Roadmap" width="800">
+<br/>
+<br/>
 On remarque que l'IA shortest_path_evolved tend vers un meilleur score.
-![](assets/meilleur_score.png =250x250)
+<br/>
+<br/>
+<img src="assets/meilleur_score.png" alt="Developer Roadmap" width="400">
+
 
